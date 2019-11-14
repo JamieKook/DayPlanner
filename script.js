@@ -22,12 +22,15 @@ for (i=1; i<timesArr.length; i++){
 
 // Get previously saved items to populate planner
 
-// Save entries in the planner to local storage
-let savedDayPlans; 
-savedDayPlans= JSON.parse(localStorage.getItem(savedDayPlans)); 
+let savedDayPlans= JSON.parse(localStorage.getItem("savedDayPlans")); 
 if (savedDayPlans === null) {
     savedDayPlans = []; 
 }
+
+console.log(savedDayPlans); 
+
+// Save entries in the planner to local storage
+
 $(".time-block").delegate("button", "click", function(){
     event.preventDefault();
 
@@ -45,7 +48,7 @@ $(".time-block").delegate("button", "click", function(){
                         "location": location, 
                     }); 
     
-    localStorage.setItem(savedDayPlans, JSON.stringify(savedDayPlans));
+    localStorage.setItem("savedDayPlans", JSON.stringify(savedDayPlans));
    
 })
 
