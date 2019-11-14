@@ -19,6 +19,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
+    <script src="https://kit.fontawesome.com/4439e3b362.js" crossorigin="anonymous"></script>
     <title>Work Day Scheduler</title>
   </head>
 
@@ -30,20 +31,83 @@
     </header>
     <div class="container">
       <!-- Timeblocks go here -->
-      <form class="timeBlock" id="9am">
-        <div class="form-row align-items-center">
-          <div class="col-2">
+      <!-- <form class="time-block" id="9am">
+        <div class="form-row align-items-center row">
+          <div class="col-2 hour">
             <h4>9AM</h4>
           </div>
           <div class="col-8">
-            <label class="sr-only" for="inlineFormInput">Name</label>
-            <input type="text" class="form-control mb-2" id="inlineFormInput" placeholder="Enter Event Here">
+            <textarea class="form-control past" id="inlineFormInput"></textarea>
           </div>
-          <div class="col-2">
-            <button type="submit" class="btn btn-primary mb-2">Submit</button>
+          <div class="col-2 saveBtn justify-content-center">
+            <button type="submit" class="btn"><i class="far fa-save"></i></button>
           </div>
         </div>
       </form>
+
+      <form class="time-block" id="10am">
+          <div class="form-row align-items-center row">
+            <div class="col-2 hour">
+              <h4>10AM</h4>
+            </div>
+            <div class="col-8">
+              <textarea class="form-control present" id="inlineFormInput"></textarea>
+            </div>
+            <div class="col-2 saveBtn">
+              <button type="submit" class="btn"><i class="far fa-save"></i></button>
+            </div>
+          </div>
+        </form> -->
+
+        <!-- <form class="time-block" id="10am">
+          <div class="form-row align-items-center row">
+            <div class="col-2 hour">
+              11AM
+            </div>
+            <textarea class="form-control col-8 future" id="inlineFormInput"></textarea>
+        
+        
+            <button type="submit" class="btn col-2 saveBtn"><i class="far fa-save"></i></button>
+          
+          </div>
+        </form> -->
+
+        <form class="time-block" id="10am">
+            <div class="row">
+              <div class="col-2 hour">
+                12PM
+              </div>
+              <textarea class="col-8 description past" id="inlineFormInput"></textarea>
+          
+          
+              <button type="submit" class="col-2 saveBtn"><i class="far fa-save"></i></button>
+            
+            </div>
+          </form>
+          <form class="time-block" id="10am">
+              <div class="row">
+                <div class="col-2 hour">
+                  1PM
+                </div>
+                <textarea class="col-8 description present" id="inlineFormInput"></textarea>
+            
+            
+                <button type="submit" class="col-2 saveBtn"><i class="far fa-save"></i></button>
+              
+              </div>
+            </form>
+            <form class="time-block" id="10am">
+                <div class="row">
+                  <div class="col-2 hour">
+                    2PM
+                  </div>
+                  <textarea class="col-8 description future" id="inlineFormInput"></textarea>
+              
+              
+                  <button type="submit" class="col-2 saveBtn"><i class="far fa-save"></i></button>
+                
+                </div>
+              </form>
     </div>
 
     <script src="script.js"></script>
