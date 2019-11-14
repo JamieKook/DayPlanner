@@ -21,13 +21,32 @@ for (i=1; i<timesArr.length; i++){
 }; 
 
 // Get previously saved items to populate planner
-
-let savedDayPlans= JSON.parse(localStorage.getItem("savedDayPlans")); 
-if (savedDayPlans === null) {
+let savedDayPlans; 
+savedDayPlans= localStorage.getItem("savedDayPlans"); 
+let locationArr = []; 
+if (savedDayPlans === null || savedDayPlans=== "") {
     savedDayPlans = []; 
+} else {
+    savedDayPlans = JSON.parse(savedDayPlans); 
+    for (i=0; i<savedDayPlans.length; i++) {
+        locationArr.push(savedDayPlans[i].time); 
+    }
+    console.log("Locations with saved events are " + locationArr);   
 }
 
-console.log(savedDayPlans); 
+for (i=0; i<locationArr.length; i++) {
+    let timeBlockElid = "#"+locationArr[i]; 
+    let timeBlockEl = $(timeBlockElid).children(".row").children("textarea"); 
+    console.log(timeBlockEl); 
+    timeBlockEl.text(savedDayPlans[i].event); 
+}
+
+//clear local storage
+
+// function clearLocalStorage() {
+//     savedDayPlans=[]; 
+//     localStorage.setItem("savedDayPlans", savedDayPlans); 
+// }
 
 // Save entries in the planner to local storage
 
@@ -41,15 +60,15 @@ $(".time-block").delegate("button", "click", function(){
     console.log(eventTime); 
     if(eventInput.trim() !==""){
         alert("You saved your event!"); 
-    }
-
-    savedDayPlans.push({"time":eventTime,
-                        "event": eventInput,
-                        "location": location, 
-                    }); 
     
-    localStorage.setItem("savedDayPlans", JSON.stringify(savedDayPlans));
-   
+    //need to add code to overwrite old entries
+        savedDayPlans.push({"time":eventTime,
+                            "event": eventInput,
+                            "location": location, 
+                        }); 
+        
+        localStorage.setItem("savedDayPlans", JSON.stringify(savedDayPlans));
+    }
 })
 
 // $(".time-block").on("click", function(event){
