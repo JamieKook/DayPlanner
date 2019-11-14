@@ -20,12 +20,33 @@ for (i=1; i<timesArr.length; i++){
 
 }; 
 
+// Get previously saved items to populate planner
+
 // Save entries in the planner to local storage
-
-let savedDayPlans=[]; 
-
+let savedDayPlans; 
+savedDayPlans= JSON.parse(localStorage.getItem(savedDayPlans)); 
+if (savedDayPlans === null) {
+    savedDayPlans = []; 
+}
 $(".time-block").delegate("button", "click", function(){
-    alert("You saved your event!"); 
+    event.preventDefault();
+
+    let eventInput= $(this).siblings("textarea").val(); 
+    let eventTime= $(this).siblings("h3").text(); 
+    let location = $(this).siblings("textarea"); 
+   
+    console.log(eventTime); 
+    if(eventInput.trim() !==""){
+        alert("You saved your event!"); 
+    }
+
+    savedDayPlans.push({"time":eventTime,
+                        "event": eventInput,
+                        "location": location, 
+                    }); 
+    
+    localStorage.setItem(savedDayPlans, JSON.stringify(savedDayPlans));
+   
 })
 
 // $(".time-block").on("click", function(event){
