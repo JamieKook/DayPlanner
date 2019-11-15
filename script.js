@@ -134,6 +134,7 @@ $(".time-block").delegate("button", "click", function(){
                 
                 locationArr.splice([indexSavedTime], 1); 
                 savedDayPlans.splice([indexSavedTime],1); 
+                $(this).attr("data-event", "none");  
             
                 localStorage.setItem("savedDayPlans", JSON.stringify(savedDayPlans));
             }  else {
