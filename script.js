@@ -14,19 +14,16 @@ $(document).ready(function(){
     console.log(moment().add(timeToRefresh,"s")); 
 
     let secondsElapsed=0; 
+    timeToRefresh= 60; 
     timerUntilStartReloading= setInterval(function(){ 
         secondsElapsed++
         if (secondsElapsed === timeToRefresh){
-            console.log("starting reload timer");
-            clearInterval(timerUntilStartReloading); 
-
+            console.log("reloading page!");
+            reload_page(); 
         }
     },1000);
 }); 
 
-let hourlyReload = setInterval(function(){ reload_page();
-    alert("Page reloaded!"); },60*60000) 
-        
     
 function reload_page(){
     
@@ -64,6 +61,7 @@ let locationArr = [];
 populateSavedEvents(); 
 
 function populateSavedEvents(){
+    locationArr=[]; 
     if (savedDayPlans === null || savedDayPlans=== "") {
         savedDayPlans = []; 
     } else {
@@ -110,8 +108,40 @@ $(".time-block").delegate("button", "click", function(){
                         }); 
         
         localStorage.setItem("savedDayPlans", JSON.stringify(savedDayPlans));
-    } 
+        populateSavedEvents(); 
+                    }
+    // } else if ()
+
+
+    //     if (savedDayPlans === null || savedDayPlans=== "") {
+    //         savedDayPlans = []; 
+    //     } else {
+    //         savedDayPlans = JSON.parse(savedDayPlans); 
+    //         for (i=0; i<savedDayPlans.length; i++) {
+
+    // }
 })
+
+
+// function populateSavedEvents(){
+//     if (savedDayPlans === null || savedDayPlans=== "") {
+//         savedDayPlans = []; 
+//     } else {
+//         savedDayPlans = JSON.parse(savedDayPlans); 
+//         for (i=0; i<savedDayPlans.length; i++) {
+//             locationArr.push(savedDayPlans[i].time); 
+//         }
+//         console.log("Locations with saved events are " + locationArr);   
+//     }
+    
+//     for (let i=0; i<locationArr.length; i++) {
+//         let timeBlockElid = "#"+locationArr[i]; 
+//         let timeBlockEl = $(timeBlockElid).children(".row").children("textarea"); 
+//         console.log(timeBlockEl); 
+//         timeBlockEl.text(savedDayPlans[i].event); 
+//     }    
+
+// }
 
 //Changing colors based on time functions and code 
 
@@ -154,4 +184,5 @@ $("#clear").on("click",function(){
       }
    
 })
+
 
