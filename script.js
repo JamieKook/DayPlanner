@@ -25,21 +25,26 @@ let savedDayPlans;
 savedDayPlans= localStorage.getItem("savedDayPlans"); 
 let locationArr = []; 
 
-if (savedDayPlans === null || savedDayPlans=== "") {
-    savedDayPlans = []; 
-} else {
-    savedDayPlans = JSON.parse(savedDayPlans); 
-    for (i=0; i<savedDayPlans.length; i++) {
-        locationArr.push(savedDayPlans[i].time); 
-    }
-    console.log("Locations with saved events are " + locationArr);   
-}
+populateSavedEvents(); 
 
-for (let i=0; i<locationArr.length; i++) {
-    let timeBlockElid = "#"+locationArr[i]; 
-    let timeBlockEl = $(timeBlockElid).children(".row").children("textarea"); 
-    console.log(timeBlockEl); 
-    timeBlockEl.text(savedDayPlans[i].event); 
+function populateSavedEvents(){
+    if (savedDayPlans === null || savedDayPlans=== "") {
+        savedDayPlans = []; 
+    } else {
+        savedDayPlans = JSON.parse(savedDayPlans); 
+        for (i=0; i<savedDayPlans.length; i++) {
+            locationArr.push(savedDayPlans[i].time); 
+        }
+        console.log("Locations with saved events are " + locationArr);   
+    }
+    
+    for (let i=0; i<locationArr.length; i++) {
+        let timeBlockElid = "#"+locationArr[i]; 
+        let timeBlockEl = $(timeBlockElid).children(".row").children("textarea"); 
+        console.log(timeBlockEl); 
+        timeBlockEl.text(savedDayPlans[i].event); 
+    }    
+
 }
 
 //clear local storage
@@ -102,9 +107,15 @@ console.log(allTimeBlockEl[0]);
         timeBlockTextarea.removeClass("past"); 
         timeBlockTextarea.addClass("future"); 
     }
-
-   
 }
    
+//clear button remove events
 
+$("#clear").on("click",function(){
+    if(confirm("Are you sure you want to clear all saved events?")){
+       clearLocalStorage(); 
+       $(".time-block").find("textarea").text(""); 
+      }
+   
+})
 
