@@ -126,6 +126,10 @@ $(".time-block").delegate("button", "click", function(){
 
        } else if (isPopulated === "yes"){
 
+            if (savedDayPlans[indexSavedTime].event === eventInput){
+                return; 
+            }
+
             locationArr.splice([indexSavedTime], 1); 
             savedDayPlans.splice([indexSavedTime],1); 
 
