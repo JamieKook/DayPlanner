@@ -76,7 +76,7 @@ function populateSavedEvents(){
     for (let i=0; i<locationArr.length; i++) {
         let timeBlockElid = "#"+locationArr[i]; 
         let timeBlockEl = $(timeBlockElid).children(".row").children("textarea"); 
-        $(timeBlockElid).children(".row").children("button").attr("data-event", "true"); 
+        $(timeBlockElid).children(".row").children("button").attr("data-event", "yes"); 
         
         timeBlockEl.text(savedDayPlans[i].event); 
     }    
@@ -100,31 +100,61 @@ $(".time-block").delegate("button", "click", function(){
     let eventInput= $(this).siblings("textarea").val(); 
     let eventTime= $(this).siblings("h3").text(); 
     let location = $(this).siblings("textarea"); 
+
    
+    let isPopulated= $(this).attr("data-event"); 
     console.log(eventTime); 
+    console.log(isPopulated); 
 
-
+   
     if(eventInput.trim() !==""){
         alert("You saved your event!"); 
     
     //need to add code to overwrite old entries- it does this because it adds to the end and takes the last value. Too much space used? 
-        savedDayPlans.push({"time":eventTime,
-                            "event": eventInput,
-                            "location": location, 
-                        }); 
-        
-        localStorage.setItem("savedDayPlans", JSON.stringify(savedDayPlans));
-        populateSavedEvents(); 
-    }
-    // } else if (eventInput.trim() === '' && )
+       if (isPopulated === "none"){
+            savedDayPlans.push({"time":eventTime,
+            "event": eventInput,
+            "location": location, 
+            }); 
 
-    // } else if ()
+            isPopulated = "yes"; 
+
+            localStorage.setItem("savedDayPlans", JSON.stringify(savedDayPlans));
+         
+        
+
+       } 
+       
+    } else if (eventInput.trim() === "" && isPopulated=== "yes") {
+            let indexSavedTime= locationArr.indexOf(eventTime);
+            console.log(indexSavedTime); 
+            let isClear= confirm("Do you want to clear this event?"); 
+            if (isClear) {
+                alert("You cleared this event");
+                
+                locationArr.splice([indexSavedTime], 1); 
+                savedDayPlans.splice([indexSavedTime],1); 
+            
+                localStorage.setItem("savedDayPlans", JSON.stringify(savedDayPlans));
+            }  else {
+                location.val(savedDayPlans[indexSavedTime].event); 
+            }
+        
+         
+    }
+    populateSavedEvents(); 
+    
+
+}); 
+        
+
+
 
 
    
 
     // }
-})
+
 
 
 // function populateSavedEvents(){
@@ -185,6 +215,7 @@ $("#clear").on("click",function(){
     if(confirm("Are you sure you want to clear all saved events?")){
        clearLocalStorage(); 
        $(".time-block").find("textarea").text(""); 
+       locationArr=[]; 
       }
    
 })
