@@ -118,7 +118,7 @@ $(".time-block").delegate("button", "click", function(){
             "location": location, 
             }); 
 
-            isPopulated = "yes"; 
+            // isPopulated = "yes"; 
 
             localStorage.setItem("savedDayPlans", JSON.stringify(savedDayPlans));
          
@@ -140,7 +140,7 @@ $(".time-block").delegate("button", "click", function(){
             "location": location, 
             }); 
 
-            isPopulated = "yes"; 
+            // isPopulated = "yes"; 
 
             localStorage.setItem("savedDayPlans", JSON.stringify(savedDayPlans));
        }
@@ -154,6 +154,7 @@ $(".time-block").delegate("button", "click", function(){
                 locationArr.splice([indexSavedTime], 1); 
                 savedDayPlans.splice([indexSavedTime],1); 
                 $(this).attr("data-event", "none");  
+                
             
                 localStorage.setItem("savedDayPlans", JSON.stringify(savedDayPlans));
             }  else {
@@ -168,34 +169,6 @@ $(".time-block").delegate("button", "click", function(){
 }); 
         
 
-
-
-
-   
-
-    // }
-
-
-
-// function populateSavedEvents(){
-
-//         savedDayPlans = []; 
-//     } else {
-//         savedDayPlans = JSON.parse(savedDayPlans); 
-//         for (i=0; i<savedDayPlans.length; i++) {
-//             locationArr.push(savedDayPlans[i].time); 
-//         }
-//         console.log("Locations with saved events are " + locationArr);   
-//     }
-    
-//     for (let i=0; i<locationArr.length; i++) {
-//         let timeBlockElid = "#"+locationArr[i]; 
-//         let timeBlockEl = $(timeBlockElid).children(".row").children("textarea"); 
-//         console.log(timeBlockEl); 
-//         timeBlockEl.text(savedDayPlans[i].event); 
-//     }    
-
-// }
 
 //Changing colors based on time functions and code 
 
@@ -234,8 +207,9 @@ console.log(allTimeBlockEl[0]);
 $("#clear").on("click",function(){
     if(confirm("Are you sure you want to clear all saved events?")){
        clearLocalStorage(); 
-       $(".time-block").find("textarea").text(""); 
-       locationArr=[]; 
+       $(".time-block").find("textarea").text("");
+       locationArr=[];  
+     
       }
    
 })
