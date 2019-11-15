@@ -10,7 +10,7 @@ todaysDateEl.text(moment().format("dddd, MMMM Do"));
 //Code to generate time blocks
 let timesArr= ["9AM","10AM", "11AM", "12PM", "1PM", "2PM", "3PM", "4PM", "5PM"]; 
 
-for (i=1; i<timesArr.length; i++){
+for (let i=1; i<timesArr.length; i++){
     let newTimeBlockEL= $("#9AM").clone();
     newTimeBlockEL.attr("id", timesArr[i]); 
     newTimeBlockEL.children(".row").attr("style", "white-space: pre-Wrap"); 
@@ -24,6 +24,7 @@ for (i=1; i<timesArr.length; i++){
 let savedDayPlans; 
 savedDayPlans= localStorage.getItem("savedDayPlans"); 
 let locationArr = []; 
+
 if (savedDayPlans === null || savedDayPlans=== "") {
     savedDayPlans = []; 
 } else {
@@ -34,7 +35,7 @@ if (savedDayPlans === null || savedDayPlans=== "") {
     console.log("Locations with saved events are " + locationArr);   
 }
 
-for (i=0; i<locationArr.length; i++) {
+for (let i=0; i<locationArr.length; i++) {
     let timeBlockElid = "#"+locationArr[i]; 
     let timeBlockEl = $(timeBlockElid).children(".row").children("textarea"); 
     console.log(timeBlockEl); 
@@ -43,10 +44,10 @@ for (i=0; i<locationArr.length; i++) {
 
 //clear local storage
 
-// function clearLocalStorage() {
-//     savedDayPlans=[]; 
-//     localStorage.setItem("savedDayPlans", savedDayPlans); 
-// }
+function clearLocalStorage() {
+    savedDayPlans=[]; 
+    localStorage.setItem("savedDayPlans", savedDayPlans); 
+}
 
 // Save entries in the planner to local storage
 
@@ -61,27 +62,49 @@ $(".time-block").delegate("button", "click", function(){
     if(eventInput.trim() !==""){
         alert("You saved your event!"); 
     
-    //need to add code to overwrite old entries
+    //need to add code to overwrite old entries- it does this because it adds to the end and takes the last value. Too much space used? 
         savedDayPlans.push({"time":eventTime,
                             "event": eventInput,
                             "location": location, 
                         }); 
         
         localStorage.setItem("savedDayPlans", JSON.stringify(savedDayPlans));
-    }
+    } 
 })
 
-// $(".time-block").on("click", function(event){
-//     debugger; 
-//     event.preventDefault();
+//Changing colors based on time functions and code 
 
-//     console.log(event); 
-//     if (event.target=== "button" || event.target===".far fa-save") {
-//         alert("You saved your event"); 
-//     }
-//     // if event.target= "button"; 
-//     // let timeBlock=$(this).id
-//     // savedDayPlans.push({"time": 
+    //getting the current time of day
+let timeOfDay= moment().format("hA"); 
+console.log(timeOfDay); 
 
-//     // })
-// });
+    //Need to get class and select past/present/future and change based on time of day
+
+let allTimeBlockEl= $(".time-block"); 
+console.log(allTimeBlockEl[0]); 
+
+ for (let i=0; i<allTimeBlockEl.length; i++){
+     let timeBlock= $(allTimeBlockEl[i]); 
+    let timeBlockId= timeBlock.attr("id");
+    let timeBlockTextarea=timeBlock.children(".row").children("textarea");  
+    console.log(timeBlockId);
+    if (timeBlockId === timeOfDay){
+        timeBlockTextarea.removeClass("past"); 
+        timeBlockTextarea.removeClass("future"); 
+        timeBlockTextarea.addClass("present"); 
+
+    } else if (moment(timeBlockId, "hA").isBefore()) {
+        timeBlockTextarea.removeClass("present"); 
+        timeBlockTextarea.removeClass("future"); 
+        timeBlockTextarea.addClass("past"); 
+    } else if (moment(timeBlockId, "hA").isAfter()) {
+        timeBlockTextarea.removeClass("present"); 
+        timeBlockTextarea.removeClass("past"); 
+        timeBlockTextarea.addClass("future"); 
+    }
+
+   
+}
+   
+
+
