@@ -106,12 +106,13 @@ $(".time-block").delegate("button", "click", function(){
     console.log(eventTime); 
     console.log(isPopulated); 
 
-   
+    let indexSavedTime= locationArr.indexOf(eventTime);
     if(eventInput.trim() !==""){
-        alert("You saved your event!"); 
-    
+        
     //need to add code to overwrite old entries- it does this because it adds to the end and takes the last value. Too much space used? 
        if (isPopulated === "none"){
+            alert("You saved your event!"); 
+    
             savedDayPlans.push({"time":eventTime,
             "event": eventInput,
             "location": location, 
@@ -123,10 +124,24 @@ $(".time-block").delegate("button", "click", function(){
          
         
 
-       } 
+       } else if (isPopulated === "yes"){
+
+            locationArr.splice([indexSavedTime], 1); 
+            savedDayPlans.splice([indexSavedTime],1); 
+
+            alert("You saved your event!"); 
+    
+            savedDayPlans.push({"time":eventTime,
+            "event": eventInput,
+            "location": location, 
+            }); 
+
+            isPopulated = "yes"; 
+
+            localStorage.setItem("savedDayPlans", JSON.stringify(savedDayPlans));
+       }
        
     } else if (eventInput.trim() === "" && isPopulated=== "yes") {
-            let indexSavedTime= locationArr.indexOf(eventTime);
             console.log(indexSavedTime); 
             let isClear= confirm("Do you want to clear this event?"); 
             if (isClear) {
