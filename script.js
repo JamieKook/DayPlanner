@@ -14,7 +14,7 @@ $(document).ready(function(){
     console.log(moment().add(timeToRefresh,"s")); 
 
     let secondsElapsed=0; 
-    timeToRefresh= 60; 
+  
     timerUntilStartReloading= setInterval(function(){ 
         secondsElapsed++
         if (secondsElapsed === timeToRefresh){
@@ -55,12 +55,13 @@ for (let i=1; i<timesArr.length; i++){
 
 // Get previously saved items to populate planner
 let savedDayPlans; 
-savedDayPlans= localStorage.getItem("savedDayPlans"); 
+
 let locationArr = []; 
 
-populateSavedEvents(); 
+
 
 function populateSavedEvents(){
+    savedDayPlans= localStorage.getItem("savedDayPlans"); 
     locationArr=[]; 
     if (savedDayPlans === null || savedDayPlans=== "") {
         savedDayPlans = []; 
@@ -75,11 +76,14 @@ function populateSavedEvents(){
     for (let i=0; i<locationArr.length; i++) {
         let timeBlockElid = "#"+locationArr[i]; 
         let timeBlockEl = $(timeBlockElid).children(".row").children("textarea"); 
-        console.log(timeBlockEl); 
+        $(timeBlockElid).children(".row").children("button").attr("data-event", "true"); 
+        
         timeBlockEl.text(savedDayPlans[i].event); 
     }    
 
 }
+
+populateSavedEvents(); 
 
 //clear local storage
 
@@ -98,6 +102,8 @@ $(".time-block").delegate("button", "click", function(){
     let location = $(this).siblings("textarea"); 
    
     console.log(eventTime); 
+
+
     if(eventInput.trim() !==""){
         alert("You saved your event!"); 
     
@@ -109,22 +115,20 @@ $(".time-block").delegate("button", "click", function(){
         
         localStorage.setItem("savedDayPlans", JSON.stringify(savedDayPlans));
         populateSavedEvents(); 
-                    }
+    }
+    // } else if (eventInput.trim() === '' && )
+
     // } else if ()
 
 
-    //     if (savedDayPlans === null || savedDayPlans=== "") {
-    //         savedDayPlans = []; 
-    //     } else {
-    //         savedDayPlans = JSON.parse(savedDayPlans); 
-    //         for (i=0; i<savedDayPlans.length; i++) {
+   
 
     // }
 })
 
 
 // function populateSavedEvents(){
-//     if (savedDayPlans === null || savedDayPlans=== "") {
+
 //         savedDayPlans = []; 
 //     } else {
 //         savedDayPlans = JSON.parse(savedDayPlans); 
@@ -158,7 +162,7 @@ console.log(allTimeBlockEl[0]);
      let timeBlock= $(allTimeBlockEl[i]); 
     let timeBlockId= timeBlock.attr("id");
     let timeBlockTextarea=timeBlock.children(".row").children("textarea");  
-    console.log(timeBlockId);
+    
     if (timeBlockId === timeOfDay){
         timeBlockTextarea.removeClass("past"); 
         timeBlockTextarea.removeClass("future"); 
