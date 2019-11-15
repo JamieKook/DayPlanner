@@ -1,3 +1,39 @@
+//automatically refresh the web page on the hour
+
+let timerUntilStartReloading; 
+
+$(document).ready(function(){
+    let time= moment().format("h:mm:ss");
+    console.log(time); 
+    let timeSplit = time.split(":"); 
+    console.log(timeSplit); 
+    let minutesToRefresh= 59 - parseInt(timeSplit[1]); 
+    let secondsToRefresh= 60- parseInt(timeSplit[2]); 
+    let timeToRefresh= minutesToRefresh*60 + secondsToRefresh; 
+    console.log(timeToRefresh); 
+    console.log(moment().add(timeToRefresh,"s")); 
+
+    let secondsElapsed=0; 
+    timerUntilStartReloading= setInterval(function(){ 
+        secondsElapsed++
+        if (secondsElapsed === timeToRefresh){
+            console.log("starting reload timer");
+            clearInterval(timerUntilStartReloading); 
+
+        }
+    },1000);
+}); 
+
+let hourlyReload = setInterval(function(){ reload_page();
+    alert("Page reloaded!"); },60*60000) 
+        
+    
+function reload_page(){
+    
+   window.location.reload(true);
+
+}
+
 //Element names
 
 let timeBlockContainer = $(".container"); 
