@@ -289,7 +289,7 @@ $("#clear").on("click",function(){
             }
          }
     }
-    populateSavedEvents(); 
+    alert("There are no more unsaved changes"); 
  }); 
 
 
