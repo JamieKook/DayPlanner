@@ -48,7 +48,7 @@ for (let i=1; i<timesArr.length; i++){
     newTimeBlockEL.attr("id", timesArr[i]); 
     newTimeBlockEL.children(".row").attr("style", "white-space: pre-Wrap"); 
     newTimeBlockEL.children(".row").children(".hour").text(timesArr[i]); 
-    newTimeBlockEL.children(".row").children("button").attr("id", timesArr[i]+"B"); 
+    // newTimeBlockEL.children(".row").children("button").attr("id", timesArr[i]+"B"); 
     newTimeBlockEL.appendTo(".container"); 
 
 }; 
@@ -109,7 +109,6 @@ $(".time-block").delegate("button", "click", function(){
     let indexSavedTime= locationArr.indexOf(eventTime);
     if(eventInput.trim() !==""){
         
-    //need to add code to overwrite old entries- it does this because it adds to the end and takes the last value. Too much space used? 
        if (isPopulated === "none"){
             alert("You saved your event!"); 
     
@@ -118,11 +117,10 @@ $(".time-block").delegate("button", "click", function(){
             "location": location, 
             }); 
 
-            // isPopulated = "yes"; 
+            // $(this).attr("data-event", "yes"); 
 
             localStorage.setItem("savedDayPlans", JSON.stringify(savedDayPlans));
          
-        
 
        } else if (isPopulated === "yes"){
 
@@ -140,7 +138,7 @@ $(".time-block").delegate("button", "click", function(){
             "location": location, 
             }); 
 
-            // isPopulated = "yes"; 
+            // $(this).attr("data-event", "yes"); 
 
             localStorage.setItem("savedDayPlans", JSON.stringify(savedDayPlans));
        }
@@ -205,15 +203,78 @@ console.log(allTimeBlockEl[0]);
 //clear button remove events
 
 $("#clear").on("click",function(){
-    debugger; 
     if(confirm("Are you sure you want to clear all saved events?")){
        clearLocalStorage(); 
        $(".time-block").find("textarea").val("");
        $(".time-block").find("button").attr("data-event", "none"); 
-       locationArr=[];  
-     
+       locationArr=[];   
       }
-   
 })
+
+// Save all
+ $("#saveAll").on("click", function(){
+     
+     for( let i=0; i < allTimeBlockEl.length; i++) {
+        let timeBlock= $(allTimeBlockEl[i]); 
+        let timeBlockId= timeBlock.attr("id");
+        let timeBlockTextarea=timeBlock.children(".row").children("textarea"); 
+        let timeBlockButton=timeBlock.children(".row").children("button");
+        let eventInput= timeBlockTextarea.val(); 
+        let isPopulated= timeBlockButton.attr("data-event");
+        let indexSavedTime= locationArr.indexOf(timeBlockId);
+        console.log("for timeblock " + timeBlockId + " it has the event " +eventInput+ " and the attribute " + isPopulated ); 
+        
+        if (eventInput.trim() === "" && isPopulated === "yes"){
+            let isSaved= confirm("At "+timeBlockId+": Are you sure you want to clear the event '"+savedDayPlans[indexSavedTime].event+"' ?"); 
+            if(isSaved) {
+                alert("You cleared this event");
+                
+                locationArr.splice([indexSavedTime], 1); 
+                savedDayPlans.splice([indexSavedTime],1); 
+                timeBlockButton.attr("data-event", "none");  
+                
+            
+                localStorage.setItem("savedDayPlans", JSON.stringify(savedDayPlans));
+            } else {
+                alert("Change was not saved."); 
+            }
+
+        } else if (eventInput.trim() !== "" && isPopulated ==="none"){
+            let isSaved= confirm("At "+timeBlockId+": Are you sure you want to add the event '"+eventInput+ "'?"); 
+            if(isSaved) {
+                alert("You saved your event!"); 
+    
+                savedDayPlans.push({"time":timeBlockId,
+                "event": eventInput,
+                "location": location, 
+                }); 
+                localStorage.setItem("savedDayPlans", JSON.stringify(savedDayPlans));
+            } 
+        } else if (eventInput.trim() !== "" && isPopulated=== "yes"){
+            if (savedDayPlans[indexSavedTime].event !== eventInput){
+                
+                let isSaved= confirm("At "+timeBlockId+": Are you sure you want to change the event from '"+savedDayPlans[indexSavedTime].event+"' to '"+eventInput+"'?"); 
+                if(isSaved) {
+
+                    locationArr.splice([indexSavedTime], 1); 
+                    savedDayPlans.splice([indexSavedTime],1); 
+
+                    alert("You saved your event!"); 
+            
+                    savedDayPlans.push({"time":timeBlockId,
+                    "event": eventInput,
+                    "location": location, 
+                    }); 
+
+                    // $(this).attr("data-event", "yes"); 
+
+                    localStorage.setItem("savedDayPlans", JSON.stringify(savedDayPlans));
+                }
+            }
+         }
+    }
+    populateSavedEvents(); 
+ }); 
+
 
 
