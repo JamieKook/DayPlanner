@@ -98,7 +98,7 @@ $(".time-block").delegate("button", "click", function(){
     event.preventDefault();
 
     let eventInput= $(this).siblings("textarea").val(); 
-    let eventTime= $(this).siblings("h3").text(); 
+    let eventTime= $(this).siblings("p").text(); 
     let location = $(this).siblings("textarea"); 
 
    
@@ -205,9 +205,11 @@ console.log(allTimeBlockEl[0]);
 //clear button remove events
 
 $("#clear").on("click",function(){
+    debugger; 
     if(confirm("Are you sure you want to clear all saved events?")){
        clearLocalStorage(); 
-       $(".time-block").find("textarea").text("");
+       $(".time-block").find("textarea").val("");
+       $(".time-block").find("button").attr("data-event", "none"); 
        locationArr=[];  
      
       }
