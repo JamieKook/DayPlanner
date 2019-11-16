@@ -18,8 +18,13 @@ $(document).ready(function(){
     timerUntilStartReloading= setInterval(function(){ 
         secondsElapsed++
         if (secondsElapsed === timeToRefresh){
-            console.log("reloading page!");
-            reload_page(); 
+            let isReloading= confirm("It's a new hour! Would you like to reload the page?"); 
+            if (isReloading) {
+                console.log("reloading page!");
+                reload_page(); 
+            } else {
+                alert("Automatic hourly reloading will no longer occur unless you reload the page."); 
+            }
         }
     },1000);
 }); 
