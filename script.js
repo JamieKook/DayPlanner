@@ -14,7 +14,7 @@ $(document).ready(function(){
     console.log(moment().add(timeToRefresh,"s")); 
 
     let secondsElapsed=0; 
-  
+
     timerUntilStartReloading= setInterval(function(){ 
         secondsElapsed++
         if (secondsElapsed === timeToRefresh){
@@ -216,6 +216,9 @@ $("#clear").on("click",function(){
       }
 })
 
+
+   
+
 // Save all
  $("#saveAll").on("click", function(){
      
@@ -242,6 +245,8 @@ $("#clear").on("click",function(){
                 localStorage.setItem("savedDayPlans", JSON.stringify(savedDayPlans));
             } else {
                 alert("Change was not saved."); 
+                timeBlockTextarea.val(savedDayPlans[indexSavedTime].event); 
+                
             }
 
         } else if (eventInput.trim() !== "" && isPopulated ==="none"){
@@ -254,7 +259,9 @@ $("#clear").on("click",function(){
                 "location": location, 
                 }); 
                 localStorage.setItem("savedDayPlans", JSON.stringify(savedDayPlans));
-            } 
+            } else {
+                timeBlockTextarea.val(""); 
+            }
         } else if (eventInput.trim() !== "" && isPopulated=== "yes"){
             if (savedDayPlans[indexSavedTime].event !== eventInput){
                 
@@ -274,7 +281,11 @@ $("#clear").on("click",function(){
                     // $(this).attr("data-event", "yes"); 
 
                     localStorage.setItem("savedDayPlans", JSON.stringify(savedDayPlans));
+                } else{
+                    alert("Change was not saved."); 
+                    timeBlockTextarea.val(savedDayPlans[indexSavedTime].event); 
                 }
+
             }
          }
     }
