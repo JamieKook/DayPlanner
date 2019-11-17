@@ -4,23 +4,22 @@ let timerUntilStartReloading;
 
 $(document).ready(function(){
     let time= moment().format("h:mm:ss");
-    console.log(time); 
+   
     let timeSplit = time.split(":"); 
-    console.log(timeSplit); 
+   
     let minutesToRefresh= 59 - parseInt(timeSplit[1]); 
     let secondsToRefresh= 60- parseInt(timeSplit[2]); 
     let timeToRefresh= minutesToRefresh*60 + secondsToRefresh; 
-    console.log(timeToRefresh); 
-    console.log(moment().add(timeToRefresh,"s")); 
+     
 
     let secondsElapsed=0; 
 
     timerUntilStartReloading= setInterval(function(){ 
         secondsElapsed++
         if (secondsElapsed === timeToRefresh){
+            console.log(moment()); 
             let isReloading= confirm("It's a new hour! Would you like to reload the page?"); 
             if (isReloading) {
-                console.log("reloading page!");
                 reload_page(); 
             } else {
                 alert("Automatic hourly reloading will no longer occur unless you reload the page."); 
@@ -171,7 +170,6 @@ $(".time-block").delegate("button", "click", function(){
 
 }); 
         
-
 
 //Changing colors based on time functions and code 
 
