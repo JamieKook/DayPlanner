@@ -226,7 +226,7 @@ $("#clear").on("click",function(){
         console.log("for timeblock " + timeBlockId + " it has the event " +eventInput+ " and the attribute " + isPopulated ); 
         
         if (eventInput.trim() === "" && isPopulated === "yes"){
-            let isSaved= confirm("At "+timeBlockId+": Are you sure you want to clear the event '"+savedDayPlans[indexSavedTime].event+"' ?"); 
+            let isSaved= confirm("At "+timeBlockId+": Would you like to clear the event '"+savedDayPlans[indexSavedTime].event+"' ?"); 
             if(isSaved) {
                 alert("You cleared this event");
                 
@@ -243,7 +243,7 @@ $("#clear").on("click",function(){
             }
 
         } else if (eventInput.trim() !== "" && isPopulated ==="none"){
-            let isSaved= confirm("At "+timeBlockId+": Are you sure you want to add the event '"+eventInput+ "'?"); 
+            let isSaved= confirm("At "+timeBlockId+": Would you like to add the event '"+eventInput+ "'?"); 
             if(isSaved) {
                 alert("You saved your event!"); 
     
@@ -258,7 +258,7 @@ $("#clear").on("click",function(){
         } else if (eventInput.trim() !== "" && isPopulated=== "yes"){
             if (savedDayPlans[indexSavedTime].event !== eventInput){
                 
-                let isSaved= confirm("At "+timeBlockId+": Are you sure you want to change the event from '"+savedDayPlans[indexSavedTime].event+"' to '"+eventInput+"'?"); 
+                let isSaved= confirm("At "+timeBlockId+": Would you like to change the event from '"+savedDayPlans[indexSavedTime].event+"' to '"+eventInput+"'?"); 
                 if(isSaved) {
 
                     locationArr.splice([indexSavedTime], 1); 
