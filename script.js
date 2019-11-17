@@ -182,7 +182,7 @@ console.log(timeOfDay);
     //Need to get class and select past/present/future and change based on time of day
 
 let allTimeBlockEl= $(".time-block"); 
-console.log(allTimeBlockEl[0]); 
+console.log(allTimeBlockEl); 
 
  for (let i=0; i<allTimeBlockEl.length; i++){
      let timeBlock= $(allTimeBlockEl[i]); 
@@ -190,17 +190,12 @@ console.log(allTimeBlockEl[0]);
     let timeBlockTextarea=timeBlock.children(".row").children("textarea");  
     
     if (timeBlockId === timeOfDay){
-        timeBlockTextarea.removeClass("past"); 
-        timeBlockTextarea.removeClass("future"); 
         timeBlockTextarea.addClass("present"); 
 
     } else if (moment(timeBlockId, "hA").isBefore()) {
-        timeBlockTextarea.removeClass("present"); 
-        timeBlockTextarea.removeClass("future"); 
         timeBlockTextarea.addClass("past"); 
+
     } else if (moment(timeBlockId, "hA").isAfter()) {
-        timeBlockTextarea.removeClass("present"); 
-        timeBlockTextarea.removeClass("past"); 
         timeBlockTextarea.addClass("future"); 
     }
 }
@@ -219,7 +214,7 @@ $("#clear").on("click",function(){
 
    
 
-// Save all
+// Save all- I feel like I should have made some of this into functions to avoid repetition  but its hard to wrap my mind around now after the fact 
  $("#saveAll").on("click", function(){
      
      for( let i=0; i < allTimeBlockEl.length; i++) {
@@ -278,8 +273,6 @@ $("#clear").on("click",function(){
                     "location": location, 
                     }); 
 
-                    // $(this).attr("data-event", "yes"); 
-
                     localStorage.setItem("savedDayPlans", JSON.stringify(savedDayPlans));
                 } else{
                     alert("Change was not saved."); 
@@ -289,7 +282,7 @@ $("#clear").on("click",function(){
             }
          }
     }
-    alert("There are no more unsaved changes"); 
+    alert("There are no unsaved changes"); 
  }); 
 
 
