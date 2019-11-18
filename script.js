@@ -10,10 +10,12 @@ $(document).ready(function(){
     let minutesToRefresh= 59 - parseInt(timeSplit[1]); 
     let secondsToRefresh= 60- parseInt(timeSplit[2]); 
     let timeToRefresh= minutesToRefresh*60 + secondsToRefresh; 
+    console.log(moment()); 
+    console.log(moment().add((timeToRefresh), "seconds")); 
+
      
 
     let secondsElapsed=0; 
-
     timerUntilStartReloading= setInterval(function(){ 
         secondsElapsed++
         if (secondsElapsed === timeToRefresh){

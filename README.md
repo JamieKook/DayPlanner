@@ -12,7 +12,7 @@ Clone folder onto your own computer by forking the repository and using the "Clo
 ### Current time sensitivity
 The calendar spans a workday from 9AM to 5PM. The current date is displayed at the top of the planner. Each work hour is color-coded based on the current time of day. Hours in the past are gray, the present hour is red, and future hours are green.  
 
-![image of color-coded time blocks](./assets/images/planner.png)
+![image of color-coded time blocks](planner.png)
 
 ### Automatic Reloading of page on the new hour
 The page is set to reload on each new hour. Prior to reloading the page, a confirm asks the user if it is okay to reload. This is done in order to prevent unexpected loss of data. If the user confirms, the page reloads displaying the correct colors for each time block and resets the timer to load the page in an hour. If the user denies the reload, they must reload the page to restart this functionality. 
