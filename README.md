@@ -35,7 +35,7 @@ There is also a button for the user to review any unsaved changes. When clicked,
 
 ## Coding
 
-This project utilizes javascript and css. A basic html template and styling sheet was created by Triology Coding Bootcamp. Bootstraps 4 was utilized for the styling and for media responsiveness. jQuery was used to select and mainpulate the DOM. Local storage was used to save high score data between pages of the project. Moment.js was used to create the time responsiveness in the page. 
+This project utilizes javascript and css. A basic html template and styling sheet was created by Triology Coding Bootcamp. Bootstraps 4 was utilized for the styling and for media responsiveness. jQuery was used to select and mainpulate the DOM. Local storage was used to save event data. Moment.js was used to create the time responsiveness in the page. 
 
 Of special note is the creation of the time-block elements. This was done with a for loop and jQuery to clone and append the HTML block I created for the 9AM time-block. 
 
