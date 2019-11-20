@@ -12,12 +12,12 @@ Clone folder onto your own computer by forking the repository and using the "Clo
 ### Current time sensitivity
 The calendar spans a workday from 9AM to 5PM. The current date is displayed at the top of the planner. Each work hour is color-coded based on the current time of day. Hours in the past are gray, the present hour is red, and future hours are green.  
 
-![image of color-coded time blocks](planner.png)
+![image of color-coded time blocks](images/planner.png)
 
 ### Automatic Reloading of page on the new hour
 The page is set to reload on each new hour. Prior to reloading the page, a confirm asks the user if it is okay to reload. This is done in order to prevent unexpected loss of data. If the user confirms, the page reloads displaying the correct colors for each time block and resets the timer to load the page in an hour. If the user denies the reload, they must reload the page to restart this functionality. 
 
-![image of confirm reload](reload.png)
+![image of confirm reload](images/reload.png)
 
 ### Event Saving
 When the user inputs a new event into an hour time block on the planner, she can save the event into local storage by clicking the blue save button to the right of the event. The save button will not work if only spaces are entered or no new event is added. If a new event is entered and the save button is not clicked, it will not be saved to local storage. 
@@ -30,7 +30,7 @@ At the bottom of the planner, users can clear all of the previously saved events
 
 There is also a button for the user to review any unsaved changes. When clicked, any changes that were made to the planner and were not saved will be shown to the user and the user will be asked to confirm those changes. 
 
-![image of clear and review buttons](buttons.png)
+![image of clear and review buttons](images/buttons.png)
 
 
 ## Coding
