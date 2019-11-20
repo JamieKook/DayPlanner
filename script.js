@@ -76,9 +76,33 @@ function clearLocalStorage() {
 
 // Save entries in the planner to local storage
 
+function saveEvent(time,input){
+    alert("You saved your event!"); 
+    savedDayPlans.push({"time":time,
+    "event": input
+    }); 
+    localStorage.setItem("savedDayPlans", JSON.stringify(savedDayPlans)); 
+}
+
+function removeEvent(index){
+    locationArr.splice([index], 1); 
+    savedDayPlans.splice([index],1); 
+}
+
+function clearEvent(index,location){
+    let isClear= confirm("Do you want to clear this event?"); 
+    if (isClear) {
+        alert("You cleared this event");
+        removeEvent(index); 
+        $(this).attr("data-event", "none");  
+        localStorage.setItem("savedDayPlans", JSON.stringify(savedDayPlans));
+    }  else {
+        location.val(savedDayPlans[index].event); 
+    } 
+}
+
 $(".time-block").delegate("button", "click", function(){
     event.preventDefault();
-
     let eventInput= $(this).siblings("textarea").val(); 
     let eventTime= $(this).siblings("p").text(); 
     let location = $(this).siblings("textarea"); 
@@ -87,35 +111,16 @@ $(".time-block").delegate("button", "click", function(){
     
     if(eventInput.trim() !==""){
        if (isPopulated === "none"){
-            alert("You saved your event!"); 
-            savedDayPlans.push({"time":eventTime,
-            "event": eventInput
-            }); 
-            localStorage.setItem("savedDayPlans", JSON.stringify(savedDayPlans)); 
+            saveEvent(eventTime, eventInput); 
        } else if (isPopulated === "yes"){
             if (savedDayPlans[indexSavedTime].event === eventInput){
                 return; 
             }
-            locationArr.splice([indexSavedTime], 1); 
-            savedDayPlans.splice([indexSavedTime],1); 
-            alert("You saved your event!"); 
-            savedDayPlans.push({"time":eventTime,
-            "event": eventInput
-            }); 
-            localStorage.setItem("savedDayPlans", JSON.stringify(savedDayPlans));
+            removeEvent(indexSavedTime); 
+            saveEvent(eventTime, eventInput); 
        }  
-    } else if (eventInput.trim() === "" && isPopulated=== "yes") {
-            console.log(indexSavedTime); 
-            let isClear= confirm("Do you want to clear this event?"); 
-            if (isClear) {
-                alert("You cleared this event");
-                locationArr.splice([indexSavedTime], 1); 
-                savedDayPlans.splice([indexSavedTime],1); 
-                $(this).attr("data-event", "none");  
-                localStorage.setItem("savedDayPlans", JSON.stringify(savedDayPlans));
-            }  else {
-                location.val(savedDayPlans[indexSavedTime].event); 
-            } 
+    } else if (eventInput.trim() === "" && isPopulated=== "yes") { 
+           clearEvent(indexSavedTime, location); 
     }
     populateSavedEvents(); 
 }); 
