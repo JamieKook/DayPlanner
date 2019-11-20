@@ -89,8 +89,7 @@ function removeEvent(index){
     savedDayPlans.splice([index],1); 
 }
 
-function clearEvent(index,location){
-    let isClear= confirm("Do you want to clear this event?"); 
+function clearEvent(isClear,index,location){
     if (isClear) {
         alert("You cleared this event");
         removeEvent(index); 
@@ -98,6 +97,7 @@ function clearEvent(index,location){
         localStorage.setItem("savedDayPlans", JSON.stringify(savedDayPlans));
     }  else {
         location.val(savedDayPlans[index].event); 
+        alert("Event was not cleared"); 
     } 
 }
 
@@ -120,7 +120,8 @@ $(".time-block").delegate("button", "click", function(){
             saveEvent(eventTime, eventInput); 
        }  
     } else if (eventInput.trim() === "" && isPopulated=== "yes") { 
-           clearEvent(indexSavedTime, location); 
+        let isClear= confirm("Do you want to clear this event?");
+        clearEvent(isClear, indexSavedTime, location,); 
     }
     populateSavedEvents(); 
 }); 
@@ -171,24 +172,11 @@ $("#clear").on("click",function(){
     
         if (eventInput.trim() === "" && isPopulated === "yes"){
             let isSaved= confirm("At "+timeBlockId+": Would you like to clear the event '"+savedDayPlans[indexSavedTime].event+"' ?"); 
-            if(isSaved) {
-                alert("You cleared this event");      
-                locationArr.splice([indexSavedTime], 1); 
-                savedDayPlans.splice([indexSavedTime],1); 
-                timeBlockButton.attr("data-event", "none");  
-                localStorage.setItem("savedDayPlans", JSON.stringify(savedDayPlans));
-            } else {
-                alert("Change was not saved."); 
-                timeBlockTextarea.val(savedDayPlans[indexSavedTime].event);    
-            }
+            clearEvent(isSaved,indexSavedTime,timeBlockTextarea); 
         } else if (eventInput.trim() !== "" && isPopulated ==="none"){
             let isSaved= confirm("At "+timeBlockId+": Would you like to add the event '"+eventInput+ "'?"); 
             if(isSaved) {
-                alert("You saved your event!"); 
-                savedDayPlans.push({"time":timeBlockId,
-                "event": eventInput
-                }); 
-                localStorage.setItem("savedDayPlans", JSON.stringify(savedDayPlans));
+                saveEvent(timeBlockId, eventInput); 
             } else {
                 timeBlockTextarea.val(""); 
             }
@@ -196,13 +184,8 @@ $("#clear").on("click",function(){
             if (savedDayPlans[indexSavedTime].event !== eventInput){     
                 let isSaved= confirm("At "+timeBlockId+": Would you like to change the event from '"+savedDayPlans[indexSavedTime].event+"' to '"+eventInput+"'?"); 
                 if(isSaved) {
-                    locationArr.splice([indexSavedTime], 1); 
-                    savedDayPlans.splice([indexSavedTime],1); 
-                    alert("You saved your event!"); 
-                    savedDayPlans.push({"time":timeBlockId,
-                    "event": eventInput 
-                    }); 
-                    localStorage.setItem("savedDayPlans", JSON.stringify(savedDayPlans));
+                    removeEvent(indexSavedTime); 
+                    saveEvent(timeBlockId, eventInput); 
                 } else{
                     alert("Change was not saved."); 
                     timeBlockTextarea.val(savedDayPlans[indexSavedTime].event); 
