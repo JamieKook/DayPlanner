@@ -102,29 +102,41 @@ function clearEvent(isClear,index,location,buttonEl){
     console.log("The data-event is set to "+buttonEl.attr("data-event") + " at " +buttonEl.siblings("p").text()); 
 }
 
+function changeEvent(time, index, location, buttonEl,eventInput, isPopulated){
+    if (eventInput.trim() === "" && isPopulated === "yes"){
+        let isSaved= confirm("At "+time+": Would you like to clear the event '"+savedDayPlans[index].event+"' ?"); 
+        clearEvent(isSaved,index,location, buttonEl); 
+    } else if (eventInput.trim() !== "" && isPopulated ==="none"){
+        let isSaved= confirm("At "+time+": Would you like to add the event '"+eventInput+ "'?"); 
+        if(isSaved) {
+            saveEvent(time, eventInput); 
+        }else {
+             location.val(""); 
+        }
+    } else if (eventInput.trim() !== "" && isPopulated=== "yes"){
+        if (savedDayPlans[index].event !== eventInput){     
+            let isSaved= confirm("At "+time+": Would you like to change the event from '"+savedDayPlans[index].event+"' to '"+eventInput+"'?"); 
+            if(isSaved) {
+                removeEvent(index); 
+                saveEvent(time, eventInput); 
+            } else{
+                alert("Change was not saved."); 
+                location.val(savedDayPlans[index].event); 
+            }
+        }
+     }
+}
+
 $(".time-block").delegate("button", "click", function(){
     event.preventDefault();
     let eventInput= $(this).siblings("textarea").val(); 
-    let eventTime= $(this).siblings("p").text(); 
+    let time= $(this).siblings("p").text(); 
     let location = $(this).siblings("textarea"); 
     let isPopulated= $(this).attr("data-event"); 
-    let indexSavedTime= locationArr.indexOf(eventTime);
+    let index= locationArr.indexOf(time);
     let buttonEl=$(this); 
-    
-    if(eventInput.trim() !==""){
-       if (isPopulated === "none"){
-            saveEvent(eventTime, eventInput); 
-       } else if (isPopulated === "yes"){
-            if (savedDayPlans[indexSavedTime].event === eventInput){
-                return; 
-            }
-            removeEvent(indexSavedTime); 
-            saveEvent(eventTime, eventInput); 
-       }  
-    } else if (eventInput.trim() === "" && isPopulated=== "yes") { 
-        let isClear= confirm("Do you want to clear this event?");
-        clearEvent(isClear, indexSavedTime, location,buttonEl); 
-    }
+
+    changeEvent(time, index, location, buttonEl, eventInput,isPopulated); 
     populateSavedEvents(); 
 }); 
         
@@ -164,35 +176,14 @@ $("#clear").on("click",function(){
  $("#saveAll").on("click", function(){   
      for( let i=0; i < allTimeBlockEl.length; i++) {
         let timeBlock= $(allTimeBlockEl[i]); 
-        let timeBlockId= timeBlock.attr("id");
-        let timeBlockTextarea=timeBlock.children(".row").children("textarea"); 
-        let timeBlockButton=timeBlock.children(".row").children("button");
-        let eventInput= timeBlockTextarea.val(); 
-        let isPopulated= timeBlockButton.attr("data-event");
-        let indexSavedTime= locationArr.indexOf(timeBlockId);
+        let time= timeBlock.attr("id");
+        let location=timeBlock.children(".row").children("textarea"); 
+        let buttonEl=timeBlock.children(".row").children("button");
+        let eventInput= location.val(); 
+        let isPopulated= buttonEl.attr("data-event");
+        let index= locationArr.indexOf(time);
     
-        if (eventInput.trim() === "" && isPopulated === "yes"){
-            let isSaved= confirm("At "+timeBlockId+": Would you like to clear the event '"+savedDayPlans[indexSavedTime].event+"' ?"); 
-            clearEvent(isSaved,indexSavedTime,timeBlockTextarea, timeBlockButton); 
-        } else if (eventInput.trim() !== "" && isPopulated ==="none"){
-            let isSaved= confirm("At "+timeBlockId+": Would you like to add the event '"+eventInput+ "'?"); 
-            if(isSaved) {
-                saveEvent(timeBlockId, eventInput); 
-            }else {
-                 timeBlockTextarea.val(""); 
-            }
-        } else if (eventInput.trim() !== "" && isPopulated=== "yes"){
-            if (savedDayPlans[indexSavedTime].event !== eventInput){     
-                let isSaved= confirm("At "+timeBlockId+": Would you like to change the event from '"+savedDayPlans[indexSavedTime].event+"' to '"+eventInput+"'?"); 
-                if(isSaved) {
-                    removeEvent(indexSavedTime); 
-                    saveEvent(timeBlockId, eventInput); 
-                } else{
-                    alert("Change was not saved."); 
-                    timeBlockTextarea.val(savedDayPlans[indexSavedTime].event); 
-                }
-            }
-         }
+        changeEvent(time, index, location,buttonEl, eventInput,isPopulated);  
         }
     populateSavedEvents(); 
     alert("There are no unsaved changes"); 
